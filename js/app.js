@@ -33,6 +33,14 @@ class AppManager {
     this.updateCartBadge();
     this.setupEventListeners();
     this.resetAllModals();
+
+    // Auto-open Welcome Login Modal if user is not logged in
+    const user = StorageManager.getLoggedUser();
+    if (!user || !user.phone) {
+      setTimeout(() => {
+        this.openModal("modal-customer-login");
+      }, 600);
+    }
   }
 
   resetAllModals() {
@@ -314,6 +322,13 @@ class AppManager {
   }
 
   addToCart(productId) {
+    const user = StorageManager.getLoggedUser();
+    if (!user || !user.phone) {
+      alert("Please log in with your mobile phone number first to add items to your cart!");
+      this.openModal("modal-customer-login");
+      return;
+    }
+
     window.cartManager.addItem(productId);
     this.updateCartBadge();
     this.openModal("modal-cart");
@@ -424,17 +439,21 @@ class AppManager {
   }
 
   openCheckoutModal() {
+    const user = StorageManager.getLoggedUser();
+    if (!user || !user.phone) {
+      alert("Please log in with your mobile phone number first to proceed to checkout!");
+      this.openModal("modal-customer-login");
+      return;
+    }
+
     if (window.cartManager.cart.length === 0) return;
     this.closeModal("modal-cart");
     this.openModal("modal-checkout");
     this.renderCheckoutTotals();
 
     // Auto-fill logged in user phone number
-    const user = StorageManager.getLoggedUser();
-    if (user && user.phone) {
-      const phoneInput = document.getElementById("cust-phone");
-      if (phoneInput) phoneInput.value = user.phone;
-    }
+    const phoneInput = document.getElementById("cust-phone");
+    if (phoneInput && user.phone) phoneInput.value = user.phone;
   }
 
   renderCheckoutTotals() {
