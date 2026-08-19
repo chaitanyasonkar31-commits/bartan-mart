@@ -673,6 +673,31 @@
     </div>
   </div>
 
+  <!-- Sticky Mobile App Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav">
+    <button class="mobile-nav-item active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      <span class="mobile-nav-icon">🏠</span>
+      <span>Home</span>
+    </button>
+    <button class="mobile-nav-item" onclick="appManager.openModal('modal-customer-login')">
+      <span class="mobile-nav-icon">📱</span>
+      <span>Login</span>
+    </button>
+    <button class="mobile-nav-item" onclick="appManager.openModal('modal-cart')">
+      <span class="mobile-nav-icon">🛒</span>
+      <span>Cart</span>
+      <span id="mobile-cart-badge-count" class="mobile-cart-badge">0</span>
+    </button>
+    <button class="mobile-nav-item" onclick="appManager.openModal('modal-tracking')">
+      <span class="mobile-nav-icon">🚚</span>
+      <span>Track</span>
+    </button>
+    <button class="mobile-nav-item" onclick="appManager.openModal('modal-admin-login')">
+      <span class="mobile-nav-icon">🔒</span>
+      <span>Admin</span>
+    </button>
+  </nav>
+
   <!-- Firebase SDKs for Real Google SMS OTP -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>

@@ -306,6 +306,8 @@ class AppManager {
     const count = window.cartManager.getItemCount();
     const countEl = document.getElementById("cart-badge-count");
     if (countEl) countEl.textContent = count;
+    const mobileCountEl = document.getElementById("mobile-cart-badge-count");
+    if (mobileCountEl) mobileCountEl.textContent = count;
   }
 
   renderCartModal() {
