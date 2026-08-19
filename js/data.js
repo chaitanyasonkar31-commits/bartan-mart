@@ -108,7 +108,7 @@ const DEFAULT_STORE_SETTINGS = {
   gstPercentage: 18,
   freeDeliveryThreshold: 999,
   flatDeliveryFee: 49,
-  adminPassword: "admin123",
+  adminPassword: "chaitanya1949",
   announcementText: "🔥 Welcome to Bartan Mart | 100% Genuine Kitchenware & Utensils | Direct Delivery"
 };
 
