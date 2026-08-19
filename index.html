@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bartan Mart | 100% Authentic Kitchenware & Utensils Store</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Announcement Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-badges">
+        <span class="badge-pill">🛡️ 100% Legitimate & Genuine Products</span>
+        <span class="badge-pill">🚫 No Replacement Policy (Checked & Verified)</span>
+        <span class="badge-pill">💳 Prepaid Only (No COD)</span>
+      </div>
+      <div class="top-bar-contact">
+        <span id="top-announcement-text" style="color: #FEF3C7; font-weight: 600;">🔥 Special Sale: Flat 10% OFF with code BARTAN10</span>
+        <a id="top-helpline-link" href="tel:+919876543210">📞 Helpline: +91 98765 43210</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar Header -->
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <a href="#" class="brand-logo">
+          <div class="brand-icon">🍳</div>
+          <div>
+            <span>Bartan Mart</span>
+            <span class="brand-subtitle">Kitchenware & Utensils</span>
+          </div>
+        </a>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-input" placeholder="Search pressure cookers, kadhai, dinner sets, utensils...">
+        </div>
+
+        <!-- Actions -->
+        <div class="nav-actions">
+          <div id="user-header-auth-container">
+            <button class="btn-nav-action btn-user-login" onclick="appManager.openModal('modal-customer-login')">
+              📱 Login with Phone
+            </button>
+          </div>
+          <button class="btn-nav-action" onclick="appManager.openModal('modal-tracking')">
+            🚚 Track Order
+          </button>
+          <button class="btn-nav-action btn-cart" onclick="appManager.openModal('modal-cart')">
+            🛒 Cart <span id="cart-badge-count" class="cart-count">0</span>
+          </button>
+          <button class="btn-nav-action btn-admin-link" onclick="appManager.openModal('modal-admin-login')">
+            🔒 Admin
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Storefront Content -->
+  <main class="container">
+
+    <!-- Hero Promotional Banner -->
+    <section class="hero-section">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <span class="hero-tag">Direct Store Offers</span>
+          <h1 class="hero-title">Upgrade Your Kitchen with Premium Utensils</h1>
+          <p class="hero-desc">Heavy gauge stainless steel cookware, pure copper handis, traditional brass lagans, and non-stick utensils delivered directly to your doorstep.</p>
+          <div class="hero-features">
+            <div class="hero-feature-item">✨ Tri-Ply Stainless Steel</div>
+            <div class="hero-feature-item">🔥 Induction & Gas Compatible</div>
+            <div class="hero-feature-item">📦 Fast Inspected Packing</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Policy Banner Cards -->
+    <section class="policy-banner-grid">
+      <div class="policy-card">
+        <div class="policy-icon icon-auth">🛡️</div>
+        <div>
+          <div class="policy-title">100% Genuine Products</div>
+          <div class="policy-desc">Heavy grade, authentic kitchenware directly from master artisans.</div>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-icon icon-policy">🚫</div>
+        <div>
+          <div class="policy-title">Strict No-Replacement Policy</div>
+          <div class="policy-desc">Every piece undergoes 3-stage quality checks before dispatch.</div>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-icon icon-pay">💳</div>
+        <div>
+          <div class="policy-title">Prepaid & Secure Payment</div>
+          <div class="policy-desc">Instant UPI QR Code, Card & Net banking. No Cash on Delivery.</div>
+        </div>
+      </div>
+      <div class="policy-card">
+        <div class="policy-icon icon-help">📞</div>
+        <div>
+          <div class="policy-title">Direct Helpline Support</div>
+          <div class="policy-desc">Call +91 98765 43210 for order updates or assistance.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Filter Bar -->
+    <section class="category-section">
+      <div class="category-scroll">
+        <button class="category-pill active" onclick="appManager.setCategory('All', this)">🍽️ All Kitchenware</button>
+        <button class="category-pill" onclick="appManager.setCategory('Cookware', this)">🍳 Cookware & Kadhai</button>
+        <button class="category-pill" onclick="appManager.setCategory('Pressure Cookers', this)">🍲 Pressure Cookers</button>
+        <button class="category-pill" onclick="appManager.setCategory('Utensils', this)">🏺 Copper & Brass Utensils</button>
+        <button class="category-pill" onclick="appManager.setCategory('Dinnerware', this)">🍽️ Dinner Sets</button>
+        <button class="category-pill" onclick="appManager.setCategory('Storage & Containers', this)">🫙 Steel Storage Containers</button>
+        <button class="category-pill" onclick="appManager.setCategory('Kitchen Tools', this)">🥄 Spoons & Kitchen Tools</button>
+      </div>
+    </section>
+
+    <!-- Products Catalog Grid -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Explore Kitchen Collection</h2>
+      </div>
+      <div id="products-grid" class="products-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3 class="footer-title">Bartan Mart</h3>
+          <p style="color:#9CA3AF; font-size:0.9rem; margin-bottom:16px;">
+            Your trusted store for 100% genuine kitchenwares, utensils, and cookware. Quality tested and delivered with care.
+          </p>
+          <div style="font-size:0.9rem; color:#FEF3C7; font-weight:700;">
+            📞 Helpline: +91 98765 43210
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Quick Categories</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="appManager.setCategory('Cookware')">Tri-Ply Cookware</a></li>
+            <li><a href="#" onclick="appManager.setCategory('Pressure Cookers')">Pressure Cookers</a></li>
+            <li><a href="#" onclick="appManager.setCategory('Utensils')">Copper & Brass Handi</a></li>
+            <li><a href="#" onclick="appManager.setCategory('Dinnerware')">Steel Dinner Sets</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title">Store Policies</h4>
+          <ul class="footer-links">
+            <li><a href="#">🛡️ 100% Genuine Quality Guarantee</a></li>
+            <li><a href="#">🚫 Strict No Replacement Policy</a></li>
+            <li><a href="#">💳 Prepaid Payment Methods (UPI, Card)</a></li>
+            <li><a href="#">🚚 Order Delivery Status Tracking</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 Bartan Mart. All rights reserved. Hostable directly on GitHub Pages.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Shopping Cart Modal -->
+  <div id="modal-cart" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">🛒 Your Shopping Cart</h3>
+        <button class="btn-close-modal" onclick="appManager.closeModal('modal-cart')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="cart-items-container">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Promo Code Section -->
+        <div class="promo-box">
+          <input type="text" id="promo-input-code" class="promo-input" placeholder="Enter Promo Code (e.g. BARTAN10)">
+          <button class="btn-apply-promo" onclick="appManager.applyPromoCodeFromInput()">Apply</button>
+        </div>
+        <div id="promo-msg-display" class="promo-msg"></div>
+
+        <!-- Pricing Breakdown -->
+        <div id="price-breakdown-container" class="price-breakdown-box">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <button id="cart-checkout-btn" class="btn-add-cart" style="margin-top:20px; font-size:1rem; padding:12px;" onclick="appManager.openCheckoutModal()">
+          Proceed to Checkout ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Checkout Modal -->
+  <div id="modal-checkout" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">💳 Secure Prepaid Checkout</h3>
+        <button class="btn-close-modal" onclick="appManager.closeModal('modal-checkout')">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Customer Details -->
+        <h4 style="margin-bottom:12px; font-weight:700; color:#111827;">1. Customer Delivery Information</h4>
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" id="cust-name" class="form-input" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mobile Phone Number (+91) *</label>
+          <input type="tel" id="cust-phone" class="form-input" placeholder="10-digit mobile number for order contact" maxlength="10" required>
+          <small style="color:#6B7280; font-size:0.75rem;">Store owner will contact this number for delivery coordination.</small>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Full Delivery Address *</label>
+          <textarea id="cust-address" class="form-textarea" rows="2" placeholder="House/Flat No., Street, Landmark, Area" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pincode *</label>
+          <input type="text" id="cust-pincode" class="form-input" placeholder="6-digit Pincode" maxlength="6" required>
+        </div>
+
+        <hr style="margin:20px 0; border:none; border-top:1px solid #E5E7EB;">
+
+        <!-- Payment Method Selection -->
+        <h4 style="margin-bottom:12px; font-weight:700; color:#111827;">2. Select Prepaid Payment Method</h4>
+        
+        <div class="payment-methods-grid">
+          <label class="payment-option-card selected">
+            <input type="radio" name="payment-method" value="UPI" checked style="display:none;">
+            <div style="font-size:1.4rem;">📱</div>
+            <strong style="font-size:0.85rem;">UPI / QR</strong>
+          </label>
+          <label class="payment-option-card">
+            <input type="radio" name="payment-method" value="Credit/Debit Card" style="display:none;">
+            <div style="font-size:1.4rem;">💳</div>
+            <strong style="font-size:0.85rem;">Card</strong>
+          </label>
+          <label class="payment-option-card">
+            <input type="radio" name="payment-method" value="Net Banking" style="display:none;">
+            <div style="font-size:1.4rem;">🏦</div>
+            <strong style="font-size:0.85rem;">Net Banking</strong>
+          </label>
+          <div class="payment-option-card disabled">
+            <div style="font-size:1.4rem;">🚫</div>
+            <strong style="font-size:0.85rem; color:#9CA3AF;">COD Disabled</strong>
+          </div>
+        </div>
+
+        <!-- UPI Display Box -->
+        <div class="qr-code-box">
+          <p style="font-size:0.85rem; font-weight:700; color:#C84B31; margin-bottom:8px;">Scan QR Code or pay to UPI ID:</p>
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=bartanmart@upi&pn=BartanMart&mc=5732&tid=123456&tr=987654&tn=Kitchenware%20Purchase&am=0&cu=INR" class="qr-code-img" alt="UPI QR Code">
+          <div class="upi-id-pill" id="checkout-upi-id-display">bartanmart@upi</div>
+          <p style="font-size:0.8rem; color:#4B5563; margin-top:8px;">Pay Amount: <strong style="color:#C84B31; font-size:1.1rem;">₹<span id="checkout-total-payable">0</span></strong></p>
+        </div>
+
+        <!-- UTR Number Capture -->
+        <div class="form-group" style="background:#FEF3C7; padding:12px; border-radius:8px; border:1px solid #F59E0B;">
+          <label class="form-label" style="color:#92400E;">Mandatory UTR / Payment Transaction ID *</label>
+          <input type="text" id="cust-utr" class="form-input" placeholder="Enter 12-digit UTR/Ref No. after payment" required>
+          <small style="color:#B45309; font-size:0.75rem; font-weight:600; display:block; margin-top:4px;">
+            ⚠️ Fraud Prevention: Order will be verified against this UTR in bank account before packing.
+          </small>
+        </div>
+
+        <button class="btn-add-cart" style="margin-top:20px; font-size:1rem; padding:12px; background:#10B981;" onclick="appManager.processOrderSubmit()">
+          Confirm & Place Order ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Order Confirmation Modal -->
+  <div id="modal-confirmation" class="modal-overlay">
+    <div class="modal-box" style="text-align:center;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color:#10B981;">🎉 Order Placed Successfully!</h3>
+        <button class="btn-close-modal" onclick="appManager.closeModal('modal-confirmation')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size:3.5rem; margin-bottom:12px;">✅</div>
+        <h3 style="margin-bottom:6px;">Order Request Submitted</h3>
+        <p style="color:#4B5563; font-size:0.95rem; margin-bottom:16px;">
+          Your Order ID is <strong style="color:#C84B31;" id="conf-order-id">#BM123456</strong>
+        </p>
+
+        <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:16px; text-align:left; font-size:0.9rem; margin-bottom:20px;">
+          <p><strong>Mobile Number:</strong> <span id="conf-cust-phone"></span></p>
+          <p><strong>Total Amount Paid:</strong> ₹<span id="conf-total-paid"></span></p>
+          <p><strong>UTR Reference:</strong> <span id="conf-utr"></span></p>
+          <p><strong>Payment Status:</strong> <span class="status-pill pending">Pending Verification</span></p>
+        </div>
+
+        <a id="conf-whatsapp-btn" href="#" target="_blank" class="btn-add-cart" style="background:#25D366; text-decoration:none; margin-bottom:10px;">
+          💬 Send Order Proof to Admin via WhatsApp
+        </a>
+
+        <button class="btn-nav-action" style="width:100%;" onclick="appManager.closeModal('modal-confirmation'); appManager.openModal('modal-tracking');">
+          🚚 Track Order Status
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Customer Order Tracking Modal -->
+  <div id="modal-tracking" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">🚚 Track Order Delivery Status</h3>
+        <button class="btn-close-modal" onclick="appManager.closeModal('modal-tracking')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; gap:8px; margin-bottom:20px;">
+          <input type="text" id="track-order-id-input" class="form-input" placeholder="Enter Order ID (e.g. BM123456)">
+          <button class="btn-add-cart" style="width:auto; padding:0 20px;" onclick="appManager.lookupOrderTracking()">Track</button>
+        </div>
+
+        <div id="tracking-result-box">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Quick View Product Modal -->
+  <div id="modal-quickview" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">🔎 Product Details</h3>
+        <button class="btn-close-modal" onclick="appManager.closeModal('modal-quickview')">✕</button>
+      </div>
+      <div class="modal-body" id="quickview-body">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Admin Login Modal -->
+  <div id="modal-admin-login" class="modal-overlay">
+    <div class="modal-box" style="max-width:400px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🔒 Admin Login</h3>
+        <button class="btn-close-modal" onclick="appManager.closeModal('modal-admin-login')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Enter Admin Password</label>
+          <input type="password" id="admin-pass-input" class="form-input" placeholder="Default: admin123" required>
+        </div>
+        <button class="btn-add-cart" onclick="
+          if(adminManager.login(document.getElementById('admin-pass-input').value)){
+            appManager.closeModal('modal-admin-login');
+            appManager.openModal('modal-admin-panel');
+            appManager.switchAdminTab('orders', document.getElementById('tab-btn-orders'));
+          } else {
+            alert('Incorrect Admin Password!');
+          }
+        ">Login to Dashboard ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Full Admin Dashboard Panel Modal -->
+  <div id="modal-admin-panel" class="modal-overlay">
+    <div class="modal-box" style="max-width:950px;">
+      <div class="modal-header" style="background:#111827; color:white;">
+        <h3 class="modal-title" style="color:white;">🛠️ Bartan Mart Owner Dashboard</h3>
+        <button class="btn-close-modal" style="background:#374151; color:white;" onclick="appManager.closeModal('modal-admin-panel')">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs">
+          <button id="tab-btn-orders" class="tab-btn active" onclick="appManager.switchAdminTab('orders', this)">📋 Orders & Fraud Desk</button>
+          <button class="tab-btn" onclick="appManager.switchAdminTab('products', this)">🍳 Products & Prices</button>
+          <button class="tab-btn" onclick="appManager.switchAdminTab('offers', this)">🎟️ Manual Offers & Promos</button>
+          <button class="tab-btn" onclick="appManager.switchAdminTab('settings', this)">⚙️ Store Settings</button>
+        </div>
+
+        <!-- TAB 1: ORDERS & PAYMENT DESK -->
+        <div id="admin-tab-orders" class="admin-tab-content">
+          <h4 style="margin-bottom:12px;">Customer Order Requests</h4>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer & Phone</th>
+                  <th>Delivery Address</th>
+                  <th>Amount</th>
+                  <th>Payment & UTR</th>
+                  <th>Payment Status</th>
+                  <th>Delivery Status</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: PRODUCTS MANAGER -->
+        <div id="admin-tab-products" class="admin-tab-content" style="display:none;">
+          <h4 style="margin-bottom:12px;">Add New Kitchenware Product</h4>
+          <form onsubmit="
+            event.preventDefault();
+            adminManager.addProduct({
+              name: document.getElementById('add-p-name').value,
+              category: document.getElementById('add-p-cat').value,
+              mrp: document.getElementById('add-p-mrp').value,
+              price: document.getElementById('add-p-price').value,
+              material: document.getElementById('add-p-material').value,
+              stock: document.getElementById('add-p-stock').value,
+              image: document.getElementById('add-p-img-preview').dataset.src || document.getElementById('add-p-img-url').value,
+              description: document.getElementById('add-p-desc').value
+            });
+            this.reset();
+          " style="background:#F9FAFB; padding:16px; border-radius:12px; margin-bottom:20px; border:1px solid #E5E7EB;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+              <div class="form-group">
+                <label class="form-label">Product Name *</label>
+                <input type="text" id="add-p-name" class="form-input" required placeholder="e.g. Copper Bottom Handi">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Category *</label>
+                <select id="add-p-cat" class="form-select" required>
+                  <option value="Cookware">Cookware & Kadhai</option>
+                  <option value="Pressure Cookers">Pressure Cookers</option>
+                  <option value="Utensils">Copper & Brass Utensils</option>
+                  <option value="Dinnerware">Dinner Sets</option>
+                  <option value="Storage & Containers">Steel Storage Containers</option>
+                  <option value="Kitchen Tools">Spoons & Kitchen Tools</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">MRP Original Price (₹) *</label>
+                <input type="number" id="add-p-mrp" class="form-input" required placeholder="2999">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Selling Offer Price (₹) *</label>
+                <input type="number" id="add-p-price" class="form-input" required placeholder="1899">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Material *</label>
+                <input type="text" id="add-p-material" class="form-input" placeholder="e.g. Pure Copper & Steel">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Initial Stock *</label>
+                <input type="number" id="add-p-stock" class="form-input" value="20" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Product Image File Upload OR Image Web Link</label>
+              <input type="file" id="add-p-file" class="form-input" accept="image/*" onchange="
+                const file = this.files[0];
+                if(file){
+                  const reader = new FileReader();
+                  reader.onload = function(e){
+                    const prev = document.getElementById('add-p-img-preview');
+                    prev.src = e.target.result;
+                    prev.dataset.src = e.target.result;
+                    prev.style.display = 'block';
+                  };
+                  reader.readAsDataURL(file);
+                }
+              ">
+              <input type="url" id="add-p-img-url" class="form-input" style="margin-top:6px;" placeholder="Or paste image URL (https://...)">
+              <img id="add-p-img-preview" src="" style="width:70px; height:70px; object-fit:cover; display:none; margin-top:8px; border-radius:6px;" alt="Preview">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Description</label>
+              <textarea id="add-p-desc" class="form-textarea" rows="2" placeholder="Enter product description and quality details"></textarea>
+            </div>
+
+            <button type="submit" class="btn-add-cart" style="width:auto; padding:10px 24px;">➕ Save & Publish Product</button>
+          </form>
+
+          <h4 style="margin-bottom:12px;">Existing Product Catalog</h4>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Product Name</th>
+                  <th>Category</th>
+                  <th>Price / MRP</th>
+                  <th>Stock Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-products-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3: PROMO CODES & OFFERS -->
+        <div id="admin-tab-offers" class="admin-tab-content" style="display:none;">
+          <h4 style="margin-bottom:12px;">Create Manual Promo Code</h4>
+          <form onsubmit="
+            event.preventDefault();
+            adminManager.addPromoCode({
+              code: document.getElementById('add-code-name').value,
+              type: document.getElementById('add-code-type').value,
+              value: document.getElementById('add-code-val').value,
+              minOrder: document.getElementById('add-code-min').value
+            });
+            this.reset();
+          " style="background:#F9FAFB; padding:16px; border-radius:12px; margin-bottom:20px; border:1px solid #E5E7EB;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+              <div class="form-group">
+                <label class="form-label">Promo Code Name *</label>
+                <input type="text" id="add-code-name" class="form-input" required placeholder="e.g. SUPERKITCHEN">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Discount Type *</label>
+                <select id="add-code-type" class="form-select">
+                  <option value="percentage">Percentage (%) OFF</option>
+                  <option value="fixed">Fixed (₹) Amount OFF</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Discount Value *</label>
+                <input type="number" id="add-code-val" class="form-input" required placeholder="e.g. 15 for 15%">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Min Order Total (₹)</label>
+                <input type="number" id="add-code-min" class="form-input" placeholder="e.g. 999">
+              </div>
+            </div>
+            <button type="submit" class="btn-add-cart" style="width:auto; padding:8px 20px;">🎟️ Create Promo Code</button>
+          </form>
+
+          <h4 style="margin-bottom:12px;">Active Owner Promo Codes</h4>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Discount</th>
+                  <th>Min Order</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-promos-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 4: STORE SETTINGS -->
+        <div id="admin-tab-settings" class="admin-tab-content" style="display:none;">
+          <h4 style="margin-bottom:12px;">Store Contact & Payment Settings</h4>
+          <div style="background:#F9FAFB; padding:20px; border-radius:12px; border:1px solid #E5E7EB;">
+            <div class="form-group">
+              <label class="form-label">Helpline Phone Number (Shown on store header & footer)</label>
+              <input type="text" id="set-helpline" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Official Store UPI ID (for QR payment receipt)</label>
+              <input type="text" id="set-upi" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">GST Tax Rate (%)</label>
+              <input type="number" id="set-gst" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Free Delivery Threshold Amount (₹)</label>
+              <input type="number" id="set-freedelivery" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Top Banner Announcement Text</label>
+              <input type="text" id="set-announcement" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Change Admin Password (Leave empty to keep current)</label>
+              <input type="password" id="set-password" class="form-input" placeholder="New Password">
+            </div>
+            <button class="btn-add-cart" style="width:auto; padding:10px 24px;" onclick="adminManager.saveSettingsFromForm()">💾 Save Store Settings</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Customer Phone OTP Login Modal -->
+  <div id="modal-customer-login" class="modal-overlay">
+    <div class="modal-box" style="max-width:420px;">
+      <div class="modal-header">
+        <h3 class="modal-title">📱 Customer OTP Login</h3>
+        <button class="btn-close-modal" onclick="appManager.closeModal('modal-customer-login')">✕</button>
+      </div>
+      <div class="modal-body" style="text-align:center;">
+        
+        <!-- STEP 1: Enter Phone Number -->
+        <div id="otp-step-1">
+          <div style="font-size:3rem; margin-bottom:10px;">📲</div>
+          <h4 style="margin-bottom:6px;">Login with Mobile Number</h4>
+          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:16px;">Enter your 10-digit mobile number to receive a 4-digit verification OTP.</p>
+          
+          <div class="form-group" style="text-align:left;">
+            <label class="form-label">Mobile Number (+91) *</label>
+            <input type="tel" id="login-phone-input" class="form-input" placeholder="e.g. 9876543210" maxlength="10">
+          </div>
+
+          <button class="btn-add-cart" style="background:#10B981;" onclick="appManager.sendLoginOTP()">
+            Send OTP Code ➔
+          </button>
+        </div>
+
+        <!-- STEP 2: Enter OTP -->
+        <div id="otp-step-2" style="display:none;">
+          <div style="font-size:3rem; margin-bottom:10px;">🔐</div>
+          <h4 style="margin-bottom:6px;">Enter 4-Digit OTP</h4>
+          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:10px;">
+            OTP sent to <strong id="display-otp-phone" style="color:#111827;">+91 9876543210</strong>
+          </p>
+
+          <div id="demo-otp-banner" style="background:#FEF3C7; border:1px solid #F59E0B; padding:8px; border-radius:8px; font-size:0.85rem; font-weight:700; color:#92400E; margin-bottom:14px;">
+            Verification Code: <span id="generated-otp-code-display" style="font-size:1.2rem; color:#C84B31; letter-spacing:2px;">1234</span>
+          </div>
+
+          <div class="otp-input-group">
+            <input type="text" maxlength="1" class="otp-box-digit" id="otp-d1" onkeyup="if(this.value) document.getElementById('otp-d2').focus()">
+            <input type="text" maxlength="1" class="otp-box-digit" id="otp-d2" onkeyup="if(this.value) document.getElementById('otp-d3').focus()">
+            <input type="text" maxlength="1" class="otp-box-digit" id="otp-d3" onkeyup="if(this.value) document.getElementById('otp-d4').focus()">
+            <input type="text" maxlength="1" class="otp-box-digit" id="otp-d4">
+          </div>
+
+          <button class="btn-add-cart" style="background:#10B981; margin-bottom:10px;" onclick="appManager.verifyLoginOTP()">
+            Verify & Login 🔓
+          </button>
+          
+          <button style="background:none; border:none; color:#6B7280; font-size:0.8rem; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('otp-step-2').style.display='none'; document.getElementById('otp-step-1').style.display='block';">
+            Change Mobile Number
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
