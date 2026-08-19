@@ -205,7 +205,8 @@ class StorageManager {
   }
 
   static fetchRemoteCatalog() {
-    fetch(this.getCloudApiUrl() + "?v=" + Date.now())
+    const remoteUrl = "https://raw.githubusercontent.com/chaitanyasonkar31-commits/bartan-mart/main/js/master_catalog.json?v=" + Date.now();
+    fetch(remoteUrl)
       .then(res => res.json())
       .then(data => {
         if (data && data.products && Array.isArray(data.products) && data.products.length > 0) {
