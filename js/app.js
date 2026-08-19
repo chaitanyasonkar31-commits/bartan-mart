@@ -77,21 +77,26 @@ class AppManager {
     const waOtp = Math.floor(1000 + Math.random() * 9000).toString();
     this.currentWaOTP = waOtp;
 
-    const settings = StorageManager.getSettings();
-    const waMsg = encodeURIComponent(`Hello Bartan Mart! My WhatsApp verification code is ${waOtp} for mobile number +91 ${phoneInput}.`);
-    const waLink = `https://wa.me/${settings.whatsappPhone}?text=${waMsg}`;
+    // Set code on screen for instant seamless login
+    const codeDisplay = document.getElementById("on-screen-otp-code");
+    if (codeDisplay) codeDisplay.textContent = waOtp;
 
-    // Open WhatsApp in new tab for customer
-    window.open(waLink, '_blank');
+    const settings = StorageManager.getSettings();
+    const waMsg = encodeURIComponent(`Hello Bartan Mart! My verification code is ${waOtp} for mobile number +91 ${phoneInput}.`);
+    const waLink = `https://wa.me/${settings.whatsappPhone}?text=${waMsg}`;
+    
+    const waBtn = document.getElementById("direct-wa-link-btn");
+    if (waBtn) {
+      waBtn.href = waLink;
+      waBtn.style.display = "block";
+    }
 
     document.getElementById("display-otp-phone").textContent = "+91 " + phoneInput;
-    document.getElementById("firebase-otp-code-input").placeholder = "Enter 4-digit code sent on WhatsApp";
+    document.getElementById("firebase-otp-code-input").placeholder = "Enter 4-digit code shown above";
     document.getElementById("firebase-otp-code-input").maxLength = 4;
     document.getElementById("otp-step-1").style.display = "none";
     document.getElementById("otp-step-2").style.display = "block";
     document.getElementById("firebase-otp-code-input").focus();
-
-    alert(`💬 Opening WhatsApp... Click Send in WhatsApp to get your 4-digit code: ${waOtp}`);
   }
 
   sendFirebaseSMSOTP() {
