@@ -1,16 +1,20 @@
-// Initialize Google Firebase with Owner Project Keys
-const firebaseConfig = {
-  apiKey: "AIzaSyBlF2SkKAD3ym85y8UwPWCNJic7nNpzzKA",
-  authDomain: "bartan-mart.firebaseapp.com",
-  projectId: "bartan-mart",
-  storageBucket: "bartan-mart.firebasestorage.app",
-  messagingSenderId: "554619831555",
-  appId: "1:554619831555:web:683f935638a7c7e245d536",
-  measurementId: "G-PGS44NZZ3G"
-};
+// Initialize Google Firebase with Owner Project Keys (Safe Init)
+try {
+  const firebaseConfig = {
+    apiKey: "AIzaSyBlF2SkKAD3ym85y8UwPWCNJic7nNpzzKA",
+    authDomain: "bartan-mart.firebaseapp.com",
+    projectId: "bartan-mart",
+    storageBucket: "bartan-mart.firebasestorage.app",
+    messagingSenderId: "554619831555",
+    appId: "1:554619831555:web:683f935638a7c7e245d536",
+    measurementId: "G-PGS44NZZ3G"
+  };
 
-if (typeof firebase !== 'undefined') {
-  firebase.initializeApp(firebaseConfig);
+  if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+} catch (err) {
+  console.warn("Firebase Init Notice:", err);
 }
 
 class AppManager {
@@ -610,8 +614,16 @@ class AppManager {
   }
 }
 
-// Global App Instance & Launch
+// Global App Instance & Standalone Fallback Functions
 window.appManager = new AppManager();
+
+window.openModal = function(id) {
+  if (window.appManager) window.appManager.openModal(id);
+};
+window.closeModal = function(id) {
+  if (window.appManager) window.appManager.closeModal(id);
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   window.appManager.init();
 });
