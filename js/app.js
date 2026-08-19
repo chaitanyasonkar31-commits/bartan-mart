@@ -32,6 +32,19 @@ class AppManager {
     this.renderCatalog();
     this.updateCartBadge();
     this.setupEventListeners();
+    this.resetAllModals();
+  }
+
+  resetAllModals() {
+    document.querySelectorAll(".modal-overlay").forEach(modal => {
+      if (!modal.classList.contains("active")) {
+        modal.style.setProperty("display", "none", "important");
+        modal.style.setProperty("opacity", "0", "important");
+        modal.style.setProperty("visibility", "hidden", "important");
+        modal.style.setProperty("pointer-events", "none", "important");
+        modal.style.setProperty("z-index", "-1", "important");
+      }
+    });
   }
 
   renderHeaderAuth() {
@@ -600,10 +613,11 @@ class AppManager {
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.classList.add("active");
-      modal.style.display = "flex";
-      modal.style.opacity = "1";
-      modal.style.visibility = "visible";
-      modal.style.pointerEvents = "auto";
+      modal.style.setProperty("display", "flex", "important");
+      modal.style.setProperty("opacity", "1", "important");
+      modal.style.setProperty("visibility", "visible", "important");
+      modal.style.setProperty("pointer-events", "auto", "important");
+      modal.style.setProperty("z-index", "10000", "important");
     }
   }
 
@@ -611,10 +625,11 @@ class AppManager {
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.classList.remove("active");
-      modal.style.display = "none";
-      modal.style.opacity = "0";
-      modal.style.visibility = "hidden";
-      modal.style.pointerEvents = "none";
+      modal.style.setProperty("display", "none", "important");
+      modal.style.setProperty("opacity", "0", "important");
+      modal.style.setProperty("visibility", "hidden", "important");
+      modal.style.setProperty("pointer-events", "none", "important");
+      modal.style.setProperty("z-index", "-1", "important");
     }
   }
 
