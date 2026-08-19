@@ -32,7 +32,7 @@
   <header class="navbar">
     <div class="container">
       <div class="navbar-content">
-        <a href="#" class="brand-logo">
+        <a href="#" class="brand-logo" ondblclick="appManager.openModal('modal-admin-login')" title="Bartan Mart Store">
           <div class="brand-icon">🍳</div>
           <div>
             <span>Bartan Mart</span>
@@ -58,9 +58,6 @@
           </button>
           <button class="btn-nav-action btn-cart" onclick="appManager.openModal('modal-cart')">
             🛒 Cart <span id="cart-badge-count" class="cart-count">0</span>
-          </button>
-          <button class="btn-nav-action btn-admin-link" onclick="appManager.openModal('modal-admin-login')">
-            🔒 Admin
           </button>
         </div>
       </div>
@@ -691,10 +688,6 @@
     <button class="mobile-nav-item" onclick="appManager.openModal('modal-tracking')">
       <span class="mobile-nav-icon">🚚</span>
       <span>Track</span>
-    </button>
-    <button class="mobile-nav-item" onclick="appManager.openModal('modal-admin-login')">
-      <span class="mobile-nav-icon">🔒</span>
-      <span>Admin</span>
     </button>
   </nav>
 

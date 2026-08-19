@@ -637,6 +637,23 @@ class AppManager {
     if (searchInput) {
       searchInput.addEventListener("input", (e) => this.handleSearch(e.target.value));
     }
+
+    // Secret Owner Admin Access (#admin in URL or Alt + A or Ctrl + Shift + A)
+    if (window.location.hash === "#admin") {
+      this.openModal("modal-admin-login");
+    }
+    window.addEventListener("hashchange", () => {
+      if (window.location.hash === "#admin") {
+        this.openModal("modal-admin-login");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if ((e.altKey && e.key.toLowerCase() === 'a') || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a')) {
+        e.preventDefault();
+        this.openModal("modal-admin-login");
+      }
+    });
   }
 }
 
