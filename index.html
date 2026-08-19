@@ -614,11 +614,11 @@
     </div>
   </div>
 
-  <!-- 8. Customer Phone OTP Login Modal -->
+  <!-- 8. Customer Phone Real Google SMS OTP Login Modal -->
   <div id="modal-customer-login" class="modal-overlay">
     <div class="modal-box" style="max-width:420px;">
       <div class="modal-header">
-        <h3 class="modal-title">📱 Customer OTP Login</h3>
+        <h3 class="modal-title">📱 Real Google SMS OTP Login</h3>
         <button class="btn-close-modal" onclick="appManager.closeModal('modal-customer-login')">✕</button>
       </div>
       <div class="modal-body" style="text-align:center;">
@@ -626,44 +626,40 @@
         <!-- STEP 1: Enter Phone Number -->
         <div id="otp-step-1">
           <div style="font-size:3rem; margin-bottom:10px;">📲</div>
-          <h4 style="margin-bottom:6px;">Login with Mobile Number</h4>
-          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:16px;">Enter your 10-digit mobile number to receive a 4-digit verification OTP.</p>
+          <h4 style="margin-bottom:6px;">Real Mobile Phone Login</h4>
+          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:16px;">Enter your 10-digit mobile number to receive a REAL SMS text message OTP from Google.</p>
           
           <div class="form-group" style="text-align:left;">
             <label class="form-label">Mobile Number (+91) *</label>
             <input type="tel" id="login-phone-input" class="form-input" placeholder="e.g. 9876543210" maxlength="10">
           </div>
 
-          <button class="btn-add-cart" style="background:#10B981;" onclick="appManager.sendLoginOTP()">
-            Send OTP Code ➔
+          <!-- Invisible reCAPTCHA container for Google Firebase -->
+          <div id="recaptcha-container"></div>
+
+          <button id="btn-send-sms-otp" class="btn-add-cart" style="background:#10B981; margin-top:10px;" onclick="appManager.sendFirebaseSMSOTP()">
+            Send Real SMS OTP 📩
           </button>
         </div>
 
-        <!-- STEP 2: Enter OTP -->
+        <!-- STEP 2: Enter 6-Digit Real SMS OTP -->
         <div id="otp-step-2" style="display:none;">
           <div style="font-size:3rem; margin-bottom:10px;">🔐</div>
-          <h4 style="margin-bottom:6px;">Enter 4-Digit OTP</h4>
-          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:10px;">
-            OTP sent to <strong id="display-otp-phone" style="color:#111827;">+91 9876543210</strong>
+          <h4 style="margin-bottom:6px;">Enter 6-Digit SMS Code</h4>
+          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:14px;">
+            Google sent a 6-digit SMS to <strong id="display-otp-phone" style="color:#111827;">+91 9876543210</strong>
           </p>
 
-          <div id="demo-otp-banner" style="background:#FEF3C7; border:1px solid #F59E0B; padding:8px; border-radius:8px; font-size:0.85rem; font-weight:700; color:#92400E; margin-bottom:14px;">
-            Verification Code: <span id="generated-otp-code-display" style="font-size:1.2rem; color:#C84B31; letter-spacing:2px;">1234</span>
+          <div class="form-group" style="margin-bottom:16px;">
+            <input type="text" id="firebase-otp-code-input" class="form-input" placeholder="Enter 6-digit code received on mobile" maxlength="6" style="text-align:center; font-size:1.4rem; font-weight:800; letter-spacing:4px;">
           </div>
 
-          <div class="otp-input-group">
-            <input type="text" maxlength="1" class="otp-box-digit" id="otp-d1" onkeyup="if(this.value) document.getElementById('otp-d2').focus()">
-            <input type="text" maxlength="1" class="otp-box-digit" id="otp-d2" onkeyup="if(this.value) document.getElementById('otp-d3').focus()">
-            <input type="text" maxlength="1" class="otp-box-digit" id="otp-d3" onkeyup="if(this.value) document.getElementById('otp-d4').focus()">
-            <input type="text" maxlength="1" class="otp-box-digit" id="otp-d4">
-          </div>
-
-          <button class="btn-add-cart" style="background:#10B981; margin-bottom:10px;" onclick="appManager.verifyLoginOTP()">
-            Verify & Login 🔓
+          <button id="btn-verify-sms-otp" class="btn-add-cart" style="background:#10B981; margin-bottom:10px;" onclick="appManager.verifyFirebaseSMSOTP()">
+            Verify SMS Code & Login 🔓
           </button>
           
           <button style="background:none; border:none; color:#6B7280; font-size:0.8rem; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('otp-step-2').style.display='none'; document.getElementById('otp-step-1').style.display='block';">
-            Change Mobile Number
+            Resend SMS or Change Number
           </button>
         </div>
 
@@ -671,7 +667,11 @@
     </div>
   </div>
 
-  <!-- JavaScript Scripts -->
+  <!-- Firebase SDKs for Real Google SMS OTP -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+  <!-- Local JavaScript Scripts -->
   <script src="js/data.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/admin.js"></script>

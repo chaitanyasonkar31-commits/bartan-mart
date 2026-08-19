@@ -1,14 +1,28 @@
-/* Main Application Controller for Bartan Mart */
+// Initialize Google Firebase with Owner Project Keys
+const firebaseConfig = {
+  apiKey: "AIzaSyBlF2SkKAD3ym85y8UwPWCNJic7nNpzzKA",
+  authDomain: "bartan-mart.firebaseapp.com",
+  projectId: "bartan-mart",
+  storageBucket: "bartan-mart.firebasestorage.app",
+  messagingSenderId: "554619831555",
+  appId: "1:554619831555:web:683f935638a7c7e245d536",
+  measurementId: "G-PGS44NZZ3G"
+};
+
+if (typeof firebase !== 'undefined') {
+  firebase.initializeApp(firebaseConfig);
+}
 
 class AppManager {
   constructor() {
     this.currentCategory = "All";
     this.searchQuery = "";
+    this.recaptchaVerifier = null;
+    this.confirmationResult = null;
+    this.pendingPhone = null;
   }
 
   init() {
-    this.currentOTP = null;
-    this.pendingPhone = null;
     this.updateStoreHeaderSettings();
     this.renderHeaderAuth();
     this.renderCatalog();
@@ -37,54 +51,104 @@ class AppManager {
     }
   }
 
-  sendLoginOTP() {
+  initFirebaseRecaptcha() {
+    if (!this.recaptchaVerifier && typeof firebase !== 'undefined') {
+      this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'invisible',
+        'callback': (response) => {
+          // reCAPTCHA solved
+        }
+      });
+    }
+  }
+
+  sendFirebaseSMSOTP() {
     const phoneInput = document.getElementById("login-phone-input").value.trim();
     if (!/^[6-9]\d{9}$/.test(phoneInput)) {
       alert("Please enter a valid 10-digit Indian Mobile Phone Number!");
       return;
     }
 
+    const sendBtn = document.getElementById("btn-send-sms-otp");
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Sending Real SMS... ⏳";
+
     this.pendingPhone = phoneInput;
-    this.currentOTP = Math.floor(1000 + Math.random() * 9000).toString();
+    const fullPhoneNumber = "+91" + phoneInput;
 
-    document.getElementById("display-otp-phone").textContent = "+91 " + phoneInput;
-    document.getElementById("generated-otp-code-display").textContent = this.currentOTP;
+    this.initFirebaseRecaptcha();
 
-    // Reset OTP boxes
-    document.getElementById("otp-d1").value = "";
-    document.getElementById("otp-d2").value = "";
-    document.getElementById("otp-d3").value = "";
-    document.getElementById("otp-d4").value = "";
-
-    document.getElementById("otp-step-1").style.display = "none";
-    document.getElementById("otp-step-2").style.display = "block";
-    document.getElementById("otp-d1").focus();
+    firebase.auth().signInWithPhoneNumber(fullPhoneNumber, this.recaptchaVerifier)
+      .then((confirmationResult) => {
+        this.confirmationResult = confirmationResult;
+        document.getElementById("display-otp-phone").textContent = fullPhoneNumber;
+        document.getElementById("otp-step-1").style.display = "none";
+        document.getElementById("otp-step-2").style.display = "block";
+        document.getElementById("firebase-otp-code-input").focus();
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Send Real SMS OTP 📩";
+        alert(`📱 Real SMS OTP sent by Google to ${fullPhoneNumber}! Check your mobile messages.`);
+      })
+      .catch((error) => {
+        console.error("Error sending SMS OTP:", error);
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Send Real SMS OTP 📩";
+        if (error.code === 'auth/invalid-phone-number') {
+          alert("Invalid phone number format. Please check the number.");
+        } else if (error.code === 'auth/quota-exceeded') {
+          alert("SMS quota exceeded. Please try again later.");
+        } else {
+          alert(`Google SMS Notice: ${error.message}\n\nPlease make sure Phone Auth is enabled in your Firebase console under Authentication ➔ Sign-in method ➔ Phone.`);
+        }
+      });
   }
 
-  verifyLoginOTP() {
-    const d1 = document.getElementById("otp-d1").value;
-    const d2 = document.getElementById("otp-d2").value;
-    const d3 = document.getElementById("otp-d3").value;
-    const d4 = document.getElementById("otp-d4").value;
-    const entered = `${d1}${d2}${d3}${d4}`;
-
-    if (entered === this.currentOTP) {
-      StorageManager.setLoggedUser({ phone: this.pendingPhone, loggedAt: new Date().toISOString() });
-      this.renderHeaderAuth();
-      this.closeModal("modal-customer-login");
-      alert(`🎉 Logged in successfully with +91 ${this.pendingPhone}!`);
-
-      // Reset login form steps
-      document.getElementById("otp-step-2").style.display = "none";
-      document.getElementById("otp-step-1").style.display = "block";
-      document.getElementById("login-phone-input").value = "";
-    } else {
-      alert("Incorrect OTP code! Please check the code displayed on screen and try again.");
+  verifyFirebaseSMSOTP() {
+    const otpInput = document.getElementById("firebase-otp-code-input").value.trim();
+    if (otpInput.length !== 6) {
+      alert("Please enter the full 6-digit SMS code received on your mobile phone!");
+      return;
     }
+
+    const verifyBtn = document.getElementById("btn-verify-sms-otp");
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = "Verifying Code... ⏳";
+
+    if (!this.confirmationResult) {
+      alert("Session expired. Please click Resend SMS.");
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = "Verify SMS Code & Login 🔓";
+      return;
+    }
+
+    this.confirmationResult.confirm(otpInput)
+      .then((result) => {
+        StorageManager.setLoggedUser({ phone: this.pendingPhone, loggedAt: new Date().toISOString(), uid: result.user.uid });
+        this.renderHeaderAuth();
+        this.closeModal("modal-customer-login");
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = "Verify SMS Code & Login 🔓";
+        alert(`🎉 Verified! Logged in successfully with +91 ${this.pendingPhone}!`);
+
+        // Reset UI
+        document.getElementById("otp-step-2").style.display = "none";
+        document.getElementById("otp-step-1").style.display = "block";
+        document.getElementById("login-phone-input").value = "";
+        document.getElementById("firebase-otp-code-input").value = "";
+      })
+      .catch((error) => {
+        console.error("Error verifying SMS OTP:", error);
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = "Verify SMS Code & Login 🔓";
+        alert("Incorrect 6-digit SMS code! Please check the SMS text message on your phone.");
+      });
   }
 
   logoutCustomer() {
     if (confirm("Are you sure you want to log out?")) {
+      if (typeof firebase !== 'undefined') {
+        firebase.auth().signOut().catch(() => {});
+      }
       StorageManager.logoutUser();
       this.renderHeaderAuth();
     }
