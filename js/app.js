@@ -94,6 +94,13 @@ class AppManager {
     alert(`💬 Opening WhatsApp... Click Send in WhatsApp to get your 4-digit code: ${waOtp}`);
   }
 
+  sendFirebaseSMSOTP() {
+    const phoneInput = document.getElementById("login-phone-input").value.trim();
+    if (!/^[6-9]\d{9}$/.test(phoneInput)) {
+      alert("Please enter a valid 10-digit Indian Mobile Phone Number!");
+      return;
+    }
+
     const sendBtn = document.getElementById("btn-send-sms-otp");
     sendBtn.disabled = true;
     sendBtn.textContent = "Sending Real SMS... ⏳";
