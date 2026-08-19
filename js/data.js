@@ -121,6 +121,7 @@ class StorageManager {
 
   static saveProducts(products) {
     localStorage.setItem("bm_products", JSON.stringify(products));
+    this.pushCloudCatalog();
   }
 
   static getPromoCodes() {
@@ -130,6 +131,7 @@ class StorageManager {
 
   static savePromoCodes(codes) {
     localStorage.setItem("bm_promo_codes", JSON.stringify(codes));
+    this.pushCloudCatalog();
   }
 
   static getOrders() {
@@ -175,17 +177,41 @@ class StorageManager {
 
   static saveSettings(settings) {
     localStorage.setItem("bm_settings", JSON.stringify(settings));
+    this.pushCloudCatalog();
+  }
+
+  static getCloudApiUrl() {
+    return "https://api.npoint.io/d64ca39b8bc7e494a8f9";
+  }
+
+  static pushCloudCatalog() {
+    const payload = {
+      products: this.getProducts(),
+      promos: this.getPromoCodes(),
+      settings: this.getSettings(),
+      updatedAt: new Date().toISOString()
+    };
+
+    fetch(this.getCloudApiUrl(), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("⚡ Realtime Cloud Store Synced!");
+    })
+    .catch(err => console.warn("Cloud Sync Notice:", err));
   }
 
   static fetchRemoteCatalog() {
-    const remoteUrl = "https://raw.githubusercontent.com/chaitanyasonkar31-commits/bartan-mart/main/js/master_catalog.json";
-    fetch(remoteUrl + "?v=" + Date.now())
+    fetch(this.getCloudApiUrl() + "?v=" + Date.now())
       .then(res => res.json())
       .then(data => {
-        if (data && data.products) {
-          this.saveProducts(data.products);
-          if (data.promos) this.savePromoCodes(data.promos);
-          if (data.settings) this.saveSettings(data.settings);
+        if (data && data.products && Array.isArray(data.products) && data.products.length > 0) {
+          localStorage.setItem("bm_products", JSON.stringify(data.products));
+          if (data.promos) localStorage.setItem("bm_promo_codes", JSON.stringify(data.promos));
+          if (data.settings) localStorage.setItem("bm_settings", JSON.stringify(data.settings));
           if (window.appManager) {
             window.appManager.renderCatalog();
             window.appManager.updateStoreHeaderSettings();
@@ -205,8 +231,9 @@ class StorageManager {
     if (!localStorage.getItem("bm_settings")) {
       this.saveSettings(DEFAULT_STORE_SETTINGS);
     }
-    // Auto-sync remote master catalog on page load
+    // Auto-sync remote cloud catalog on load & every 8 seconds for live cross-device sync
     this.fetchRemoteCatalog();
+    setInterval(() => this.fetchRemoteCatalog(), 8000);
   }
 }
 
