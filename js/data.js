@@ -99,32 +99,7 @@ const DEFAULT_PRODUCTS = [
   }
 ];
 
-const DEFAULT_PROMO_CODES = [
-  {
-    code: "BARTAN10",
-    type: "percentage", // 'percentage' or 'fixed'
-    value: 10, // 10% off
-    minOrder: 999,
-    active: true,
-    description: "Get 10% OFF on orders above ₹999"
-  },
-  {
-    code: "KITCHEN200",
-    type: "fixed",
-    value: 200, // Flat ₹200 off
-    minOrder: 1999,
-    active: true,
-    description: "Flat ₹200 OFF on orders above ₹1999"
-  },
-  {
-    code: "FESTIVE15",
-    type: "percentage",
-    value: 15,
-    minOrder: 2999,
-    active: true,
-    description: "Festive Special 15% OFF on orders above ₹2999"
-  }
-];
+const DEFAULT_PROMO_CODES = []; // Empty by default. Promo codes & sales will only exist when manually added by owner.
 
 const DEFAULT_STORE_SETTINGS = {
   helplinePhone: "+91 98765 43210",
@@ -134,7 +109,7 @@ const DEFAULT_STORE_SETTINGS = {
   freeDeliveryThreshold: 999,
   flatDeliveryFee: 49,
   adminPassword: "admin123",
-  announcementText: "🔥 Special Sale: Flat 10% OFF with code BARTAN10 | 100% Legitimate Utensils & Kitchenware | Direct Delivery"
+  announcementText: "🔥 Welcome to Bartan Mart | 100% Genuine Kitchenware & Utensils | Direct Delivery"
 };
 
 // Storage Manager Helpers
