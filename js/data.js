@@ -177,6 +177,24 @@ class StorageManager {
     localStorage.setItem("bm_settings", JSON.stringify(settings));
   }
 
+  static fetchRemoteCatalog() {
+    const remoteUrl = "https://raw.githubusercontent.com/chaitanyasonkar31-commits/bartan-mart/main/js/master_catalog.json";
+    fetch(remoteUrl + "?v=" + Date.now())
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.products) {
+          this.saveProducts(data.products);
+          if (data.promos) this.savePromoCodes(data.promos);
+          if (data.settings) this.saveSettings(data.settings);
+          if (window.appManager) {
+            window.appManager.renderCatalog();
+            window.appManager.updateStoreHeaderSettings();
+          }
+        }
+      })
+      .catch(() => {});
+  }
+
   static initSeed() {
     if (!localStorage.getItem("bm_products")) {
       this.saveProducts(DEFAULT_PRODUCTS);
@@ -187,6 +205,8 @@ class StorageManager {
     if (!localStorage.getItem("bm_settings")) {
       this.saveSettings(DEFAULT_STORE_SETTINGS);
     }
+    // Auto-sync remote master catalog on page load
+    this.fetchRemoteCatalog();
   }
 }
 
