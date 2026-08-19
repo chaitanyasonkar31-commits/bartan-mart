@@ -626,8 +626,8 @@
         <!-- STEP 1: Enter Phone Number -->
         <div id="otp-step-1">
           <div style="font-size:3rem; margin-bottom:10px;">📲</div>
-          <h4 style="margin-bottom:6px;">Real Mobile Phone Login</h4>
-          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:16px;">Enter your 10-digit mobile number to receive a REAL SMS text message OTP from Google.</p>
+          <h4 style="margin-bottom:6px;">Login with Mobile Phone</h4>
+          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:16px;">Choose your preferred OTP verification method:</p>
           
           <div class="form-group" style="text-align:left;">
             <label class="form-label">Mobile Number (+91) *</label>
@@ -637,9 +637,15 @@
           <!-- Invisible reCAPTCHA container for Google Firebase -->
           <div id="recaptcha-container"></div>
 
-          <button id="btn-send-sms-otp" class="btn-add-cart" style="background:#10B981; margin-top:10px;" onclick="appManager.sendFirebaseSMSOTP()">
-            Send Real SMS OTP 📩
-          </button>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+            <button id="btn-send-whatsapp-otp" class="btn-add-cart" style="background:#25D366;" onclick="appManager.sendWhatsAppOTP()">
+              💬 Instant WhatsApp OTP (Free & Unlimited)
+            </button>
+
+            <button id="btn-send-sms-otp" class="btn-add-cart" style="background:#10B981;" onclick="appManager.sendFirebaseSMSOTP()">
+              📩 Google SMS Text Message OTP
+            </button>
+          </div>
         </div>
 
         <!-- STEP 2: Enter 6-Digit Real SMS OTP -->

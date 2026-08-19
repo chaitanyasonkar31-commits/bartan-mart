@@ -62,12 +62,33 @@ class AppManager {
     }
   }
 
-  sendFirebaseSMSOTP() {
+  sendWhatsAppOTP() {
     const phoneInput = document.getElementById("login-phone-input").value.trim();
     if (!/^[6-9]\d{9}$/.test(phoneInput)) {
       alert("Please enter a valid 10-digit Indian Mobile Phone Number!");
       return;
     }
+
+    this.pendingPhone = phoneInput;
+    const waOtp = Math.floor(1000 + Math.random() * 9000).toString();
+    this.currentWaOTP = waOtp;
+
+    const settings = StorageManager.getSettings();
+    const waMsg = encodeURIComponent(`Hello Bartan Mart! My WhatsApp verification code is ${waOtp} for mobile number +91 ${phoneInput}.`);
+    const waLink = `https://wa.me/${settings.whatsappPhone}?text=${waMsg}`;
+
+    // Open WhatsApp in new tab for customer
+    window.open(waLink, '_blank');
+
+    document.getElementById("display-otp-phone").textContent = "+91 " + phoneInput;
+    document.getElementById("firebase-otp-code-input").placeholder = "Enter 4-digit code sent on WhatsApp";
+    document.getElementById("firebase-otp-code-input").maxLength = 4;
+    document.getElementById("otp-step-1").style.display = "none";
+    document.getElementById("otp-step-2").style.display = "block";
+    document.getElementById("firebase-otp-code-input").focus();
+
+    alert(`💬 Opening WhatsApp... Click Send in WhatsApp to get your 4-digit code: ${waOtp}`);
+  }
 
     const sendBtn = document.getElementById("btn-send-sms-otp");
     sendBtn.disabled = true;
@@ -105,7 +126,23 @@ class AppManager {
 
   verifyFirebaseSMSOTP() {
     const otpInput = document.getElementById("firebase-otp-code-input").value.trim();
-    if (otpInput.length !== 6) {
+
+    // If verified via WhatsApp 4-digit OTP
+    if (this.currentWaOTP && otpInput === this.currentWaOTP) {
+      StorageManager.setLoggedUser({ phone: this.pendingPhone, loggedAt: new Date().toISOString(), type: 'whatsapp' });
+      this.renderHeaderAuth();
+      this.closeModal("modal-customer-login");
+      alert(`🎉 Verified via WhatsApp! Logged in successfully with +91 ${this.pendingPhone}!`);
+
+      document.getElementById("otp-step-2").style.display = "none";
+      document.getElementById("otp-step-1").style.display = "block";
+      document.getElementById("login-phone-input").value = "";
+      document.getElementById("firebase-otp-code-input").value = "";
+      this.currentWaOTP = null;
+      return;
+    }
+
+    if (otpInput.length !== 6 && !this.currentWaOTP) {
       alert("Please enter the full 6-digit SMS code received on your mobile phone!");
       return;
     }
@@ -114,34 +151,40 @@ class AppManager {
     verifyBtn.disabled = true;
     verifyBtn.textContent = "Verifying Code... ⏳";
 
-    if (!this.confirmationResult) {
-      alert("Session expired. Please click Resend SMS.");
+    if (!this.confirmationResult && !this.currentWaOTP) {
+      alert("Session expired. Please click Resend.");
       verifyBtn.disabled = false;
       verifyBtn.textContent = "Verify SMS Code & Login 🔓";
       return;
     }
 
-    this.confirmationResult.confirm(otpInput)
-      .then((result) => {
-        StorageManager.setLoggedUser({ phone: this.pendingPhone, loggedAt: new Date().toISOString(), uid: result.user.uid });
-        this.renderHeaderAuth();
-        this.closeModal("modal-customer-login");
-        verifyBtn.disabled = false;
-        verifyBtn.textContent = "Verify SMS Code & Login 🔓";
-        alert(`🎉 Verified! Logged in successfully with +91 ${this.pendingPhone}!`);
+    if (this.confirmationResult) {
+      this.confirmationResult.confirm(otpInput)
+        .then((result) => {
+          StorageManager.setLoggedUser({ phone: this.pendingPhone, loggedAt: new Date().toISOString(), uid: result.user.uid, type: 'firebase' });
+          this.renderHeaderAuth();
+          this.closeModal("modal-customer-login");
+          verifyBtn.disabled = false;
+          verifyBtn.textContent = "Verify SMS Code & Login 🔓";
+          alert(`🎉 Verified! Logged in successfully with +91 ${this.pendingPhone}!`);
 
-        // Reset UI
-        document.getElementById("otp-step-2").style.display = "none";
-        document.getElementById("otp-step-1").style.display = "block";
-        document.getElementById("login-phone-input").value = "";
-        document.getElementById("firebase-otp-code-input").value = "";
-      })
-      .catch((error) => {
-        console.error("Error verifying SMS OTP:", error);
-        verifyBtn.disabled = false;
-        verifyBtn.textContent = "Verify SMS Code & Login 🔓";
-        alert("Incorrect 6-digit SMS code! Please check the SMS text message on your phone.");
-      });
+          // Reset UI
+          document.getElementById("otp-step-2").style.display = "none";
+          document.getElementById("otp-step-1").style.display = "block";
+          document.getElementById("login-phone-input").value = "";
+          document.getElementById("firebase-otp-code-input").value = "";
+        })
+        .catch((error) => {
+          console.error("Error verifying SMS OTP:", error);
+          verifyBtn.disabled = false;
+          verifyBtn.textContent = "Verify SMS Code & Login 🔓";
+          alert("Incorrect verification code! Please check the code received on your phone.");
+        });
+    } else {
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = "Verify SMS Code & Login 🔓";
+      alert("Incorrect verification code! Please check the WhatsApp or SMS code.");
+    }
   }
 
   logoutCustomer() {
