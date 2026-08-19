@@ -1129,11 +1129,13 @@ body {
     font-size: 1rem;
   }
   .policy-title {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 700;
   }
   .policy-desc {
-    font-size: 0.7rem;
-    display: none; /* hide long desc on mobile for clean cards */
+    font-size: 0.72rem;
+    display: block !important;
+    color: var(--gray-600);
   }
 
   /* Mobile App Product Grid (2 Columns) */
@@ -1145,32 +1147,35 @@ body {
     border-radius: var(--radius-sm);
   }
   .product-image-wrap {
-    padding-top: 90%;
+    padding-top: 85%;
   }
   .product-body {
     padding: 10px;
   }
   .product-category {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
+    font-weight: 700;
   }
   .product-title {
-    font-size: 0.85rem;
-    line-height: 1.2;
+    font-size: 0.9rem;
+    line-height: 1.25;
     margin-bottom: 6px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-weight: 700;
+    word-break: break-word;
   }
   .product-rating {
     font-size: 0.75rem;
     margin-bottom: 6px;
   }
   .price-current {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
   }
   .price-mrp {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
+  }
+  .tax-tag {
+    font-size: 0.65rem;
   }
   .btn-add-cart {
     padding: 8px 10px;
