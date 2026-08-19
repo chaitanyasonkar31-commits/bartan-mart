@@ -591,12 +591,24 @@ class AppManager {
 
   openModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (modal) modal.classList.add("active");
+    if (modal) {
+      modal.classList.add("active");
+      modal.style.display = "flex";
+      modal.style.opacity = "1";
+      modal.style.visibility = "visible";
+      modal.style.pointerEvents = "auto";
+    }
   }
 
   closeModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (modal) modal.classList.remove("active");
+    if (modal) {
+      modal.classList.remove("active");
+      modal.style.display = "none";
+      modal.style.opacity = "0";
+      modal.style.visibility = "hidden";
+      modal.style.pointerEvents = "none";
+    }
   }
 
   switchAdminTab(tabName, btnElement) {
