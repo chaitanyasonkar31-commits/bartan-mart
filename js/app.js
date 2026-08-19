@@ -98,10 +98,6 @@ class AppManager {
     const waOtp = Math.floor(1000 + Math.random() * 9000).toString();
     this.currentWaOTP = waOtp;
 
-    // Set code on screen for instant seamless login
-    const codeDisplay = document.getElementById("on-screen-otp-code");
-    if (codeDisplay) codeDisplay.textContent = waOtp;
-
     const settings = StorageManager.getSettings();
     const waMsg = encodeURIComponent(`Hello Bartan Mart! My verification code is ${waOtp} for mobile number +91 ${phoneInput}.`);
     const waLink = `https://wa.me/${settings.whatsappPhone}?text=${waMsg}`;
@@ -112,8 +108,11 @@ class AppManager {
       waBtn.style.display = "block";
     }
 
+    // Auto-open WhatsApp for customer
+    window.open(waLink, '_blank');
+
     document.getElementById("display-otp-phone").textContent = "+91 " + phoneInput;
-    document.getElementById("firebase-otp-code-input").placeholder = "Enter 4-digit code shown above";
+    document.getElementById("firebase-otp-code-input").placeholder = "Enter 4-digit code from WhatsApp";
     document.getElementById("firebase-otp-code-input").maxLength = 4;
     document.getElementById("otp-step-1").style.display = "none";
     document.getElementById("otp-step-2").style.display = "block";

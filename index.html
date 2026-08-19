@@ -640,30 +640,25 @@
           </button>
         </div>
 
-        <!-- STEP 2: Enter 4-Digit OTP -->
+        <!-- STEP 2: Enter 4-Digit WhatsApp OTP -->
         <div id="otp-step-2" style="display:none;">
           <div style="font-size:3rem; margin-bottom:10px;">💬</div>
-          <h4 style="margin-bottom:6px;">Your Instant OTP Code</h4>
-          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:12px;">
-            Mobile: <strong id="display-otp-phone" style="color:#111827;">+91 9876543210</strong>
+          <h4 style="margin-bottom:6px;">Check Your WhatsApp Message</h4>
+          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:14px;">
+            A 4-digit verification code has been generated for <strong id="display-otp-phone" style="color:#111827;">+91 9876543210</strong>.
           </p>
 
-          <div id="instant-otp-banner" style="background:#ECFDF5; border:2px dashed #10B981; padding:12px; border-radius:12px; margin-bottom:16px;">
-            <span style="font-size:0.8rem; color:#065F46; font-weight:700; display:block;">YOUR VERIFICATION CODE:</span>
-            <span id="on-screen-otp-code" style="font-size:2rem; font-weight:800; color:#C84B31; letter-spacing:6px; display:block; margin-top:2px;">5767</span>
-          </div>
+          <a id="direct-wa-link-btn" href="#" target="_blank" class="btn-add-cart" style="background:#25D366; text-decoration:none; margin-bottom:16px; font-size:0.9rem;">
+            💬 Open WhatsApp to Get Code
+          </a>
 
           <div class="form-group" style="margin-bottom:16px;">
-            <input type="text" id="firebase-otp-code-input" class="form-input" placeholder="Enter 4-digit code shown above" maxlength="4" style="text-align:center; font-size:1.4rem; font-weight:800; letter-spacing:6px;">
+            <input type="text" id="firebase-otp-code-input" class="form-input" placeholder="Enter 4-digit code from WhatsApp" maxlength="4" style="text-align:center; font-size:1.4rem; font-weight:800; letter-spacing:6px;">
           </div>
 
           <button id="btn-verify-sms-otp" class="btn-add-cart" style="background:#10B981; margin-bottom:10px;" onclick="appManager.verifyFirebaseSMSOTP()">
             Verify Code & Login 🔓
           </button>
-
-          <a id="direct-wa-link-btn" href="#" target="_blank" class="btn-add-cart" style="background:#25D366; text-decoration:none; margin-bottom:10px; font-size:0.85rem; display:none;">
-            💬 Also Send Code to Store WhatsApp
-          </a>
           
           <button style="background:none; border:none; color:#6B7280; font-size:0.8rem; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('otp-step-2').style.display='none'; document.getElementById('otp-step-1').style.display='block';">
             Change Mobile Number
