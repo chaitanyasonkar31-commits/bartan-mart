@@ -233,6 +233,41 @@ class AdminManager {
     this.renderOrdersTable();
   }
 
+  exportCatalogJSON() {
+    const data = {
+      products: StorageManager.getProducts(),
+      promos: StorageManager.getPromoCodes(),
+      settings: StorageManager.getSettings()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "bartan_mart_master_data.json";
+    a.click();
+  }
+
+  importCatalogJSON(jsonFile) {
+    if (!jsonFile) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.products) StorageManager.saveProducts(data.products);
+        if (data.promos) StorageManager.savePromoCodes(data.promos);
+        if (data.settings) StorageManager.saveSettings(data.settings);
+        this.renderProductsTable();
+        this.renderPromoCodesTable();
+        this.renderSettingsForm();
+        window.appManager.renderCatalog();
+        alert("Store catalog and settings imported successfully across devices!");
+      } catch (err) {
+        alert("Invalid JSON data file format!");
+      }
+    };
+    reader.readAsText(jsonFile);
+  }
+
   renderSettingsForm() {
     const s = StorageManager.getSettings();
     document.getElementById("set-helpline").value = s.helplinePhone;
