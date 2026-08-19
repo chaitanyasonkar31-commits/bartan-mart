@@ -1,6 +1,18 @@
 {
   "products": [
     {
+      "id": "p_1787166350078",
+      "name": "dfs",
+      "category": "Cookware",
+      "mrp": 1,
+      "price": 5,
+      "material": "dsfs",
+      "image": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80",
+      "rating": 4.8,
+      "stock": 20,
+      "description": "Custom product added from store manager."
+    },
+    {
       "id": "p1",
       "name": "Tri-Ply Stainless Steel Pressure Cooker (3 Litre)",
       "category": "Pressure Cookers",
