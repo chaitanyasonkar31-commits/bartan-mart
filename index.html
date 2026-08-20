@@ -633,53 +633,70 @@
     </div>
   </div>
 
-  <!-- 8. Customer Phone Real Google SMS OTP Login Modal -->
+  <!-- 8. Customer Phone Flipkart-Style SMS OTP Login Modal -->
   <div id="modal-customer-login" class="modal-overlay">
-    <div class="modal-box" style="max-width:420px;">
-      <div class="modal-header">
-        <h3 class="modal-title">📱 Real Google SMS OTP Login</h3>
-        <button class="btn-close-modal" onclick="appManager.closeModal('modal-customer-login')">✕</button>
+    <div class="modal-box" style="max-width:400px; border-radius:16px; overflow:hidden;">
+      <div style="background:#2874F0; padding:24px 20px; color:#ffffff; text-align:left;">
+        <div style="font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; opacity:0.9; font-weight:700;">Login or Signup</div>
+        <h3 style="font-size:1.4rem; font-weight:800; margin-top:4px; margin-bottom:6px; color:#ffffff;">Get access to your Orders, Track & Wishlist</h3>
+        <p style="font-size:0.8rem; opacity:0.85; margin:0;">Enter your 10-digit mobile number to receive an instant OTP</p>
       </div>
-      <div class="modal-body" style="text-align:center;">
+
+      <div class="modal-body" style="padding:24px 20px; text-align:left;">
         
-        <!-- STEP 1: Enter Phone Number -->
+        <!-- STEP 1: Enter Phone Number (Flipkart UI) -->
         <div id="otp-step-1">
-          <div style="font-size:3rem; margin-bottom:10px;">📲</div>
-          <h4 style="margin-bottom:6px;">Strict Mobile Phone Verification</h4>
-          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:16px;">Enter your 10-digit mobile number to receive a 6-digit SMS code on your phone SIM card:</p>
-          
-          <div class="form-group" style="text-align:left;">
-            <label class="form-label">Mobile Number (+91) *</label>
-            <input type="tel" id="login-phone-input" class="form-input" placeholder="e.g. 9876543210" maxlength="10">
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label" style="font-size:0.8rem; font-weight:700; color:#4B5563;">Enter Mobile Number</label>
+            <div style="display:flex; align-items:center; border:2px solid #E5E7EB; border-radius:8px; padding:0 12px; background:#F9FAFB; transition:0.2s;" id="phone-input-wrapper">
+              <span style="font-weight:800; font-size:1rem; color:#111827; margin-right:8px; border-right:1px solid #D1D5DB; padding-right:8px;">+91</span>
+              <input type="tel" id="login-phone-input" style="border:none; background:transparent; width:100%; height:44px; font-size:1.1rem; font-weight:700; color:#111827; outline:none;" placeholder="Enter 10-digit number" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            </div>
           </div>
+
+          <p style="font-size:0.75rem; color:#6B7280; margin-bottom:20px; line-height:1.4;">
+            By continuing, you agree to Bartan Mart's <a href="#" style="color:#2874F0; text-decoration:none; font-weight:600;">Terms of Use</a> & <a href="#" style="color:#2874F0; text-decoration:none; font-weight:600;">Privacy Policy</a>.
+          </p>
 
           <!-- Invisible reCAPTCHA container for Google Firebase -->
           <div id="recaptcha-container"></div>
 
-          <button id="btn-send-sms-otp" class="btn-add-cart" style="background:#10B981; margin-top:10px;" onclick="appManager.sendFirebaseSMSOTP()">
-            Send Real SMS OTP to My SIM Card 📩
+          <button id="btn-send-sms-otp" class="btn-add-cart" style="background:#FB641B; border:none; height:48px; font-size:1rem; font-weight:800; border-radius:8px; width:100%; box-shadow:0 2px 8px rgba(251,100,27,0.3);" onclick="appManager.sendFirebaseSMSOTP()">
+            CONTINUE
+          </button>
+
+          <button style="background:none; border:none; color:#6B7280; font-size:0.85rem; font-weight:600; cursor:pointer; margin-top:16px; display:block; width:100%; text-align:center;" onclick="appManager.closeModal('modal-customer-login')">
+            Skip for Now ➔
           </button>
         </div>
 
-        <!-- STEP 2: Enter 6-Digit Real SMS OTP -->
-        <div id="otp-step-2" style="display:none;">
-          <div style="font-size:3rem; margin-bottom:10px;">🔐</div>
-          <h4 style="margin-bottom:6px;">Enter 6-Digit SMS Code</h4>
-          <p style="color:#6B7280; font-size:0.85rem; margin-bottom:14px;">
-            Google sent a 6-digit SMS text message to <strong id="display-otp-phone" style="color:#111827;">+91 9876543210</strong>
+        <!-- STEP 2: Enter 6-Digit Flipkart-Style OTP -->
+        <div id="otp-step-2" style="display:none; text-align:center;">
+          <p style="font-size:0.85rem; color:#374151; margin-bottom:16px;">
+            Please enter the 6-digit verification code sent to <br><strong id="display-otp-phone" style="color:#111827; font-size:1rem;">+91 9876543210</strong>
+            <button style="background:none; border:none; color:#2874F0; font-size:0.8rem; font-weight:700; cursor:pointer; margin-left:6px;" onclick="document.getElementById('otp-step-2').style.display='none'; document.getElementById('otp-step-1').style.display='block';">Change</button>
           </p>
 
-          <div class="form-group" style="margin-bottom:16px;">
-            <input type="text" id="firebase-otp-code-input" class="form-input" placeholder="Enter 6-digit SMS code received on SIM" maxlength="6" style="text-align:center; font-size:1.4rem; font-weight:800; letter-spacing:4px;">
+          <!-- 6 Individual Digit Inputs -->
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;" id="otp-inputs-container">
+            <input type="text" maxlength="1" class="fk-otp-box" id="otp-box-1" onkeyup="appManager.handleOtpBoxInput(this, 1, event)" style="width:42px; height:48px; border:2px solid #D1D5DB; border-radius:8px; text-align:center; font-size:1.3rem; font-weight:800; color:#111827; outline:none; background:#F9FAFB;">
+            <input type="text" maxlength="1" class="fk-otp-box" id="otp-box-2" onkeyup="appManager.handleOtpBoxInput(this, 2, event)" style="width:42px; height:48px; border:2px solid #D1D5DB; border-radius:8px; text-align:center; font-size:1.3rem; font-weight:800; color:#111827; outline:none; background:#F9FAFB;">
+            <input type="text" maxlength="1" class="fk-otp-box" id="otp-box-3" onkeyup="appManager.handleOtpBoxInput(this, 3, event)" style="width:42px; height:48px; border:2px solid #D1D5DB; border-radius:8px; text-align:center; font-size:1.3rem; font-weight:800; color:#111827; outline:none; background:#F9FAFB;">
+            <input type="text" maxlength="1" class="fk-otp-box" id="otp-box-4" onkeyup="appManager.handleOtpBoxInput(this, 4, event)" style="width:42px; height:48px; border:2px solid #D1D5DB; border-radius:8px; text-align:center; font-size:1.3rem; font-weight:800; color:#111827; outline:none; background:#F9FAFB;">
+            <input type="text" maxlength="1" class="fk-otp-box" id="otp-box-5" onkeyup="appManager.handleOtpBoxInput(this, 5, event)" style="width:42px; height:48px; border:2px solid #D1D5DB; border-radius:8px; text-align:center; font-size:1.3rem; font-weight:800; color:#111827; outline:none; background:#F9FAFB;">
+            <input type="text" maxlength="1" class="fk-otp-box" id="otp-box-6" onkeyup="appManager.handleOtpBoxInput(this, 6, event)" style="width:42px; height:48px; border:2px solid #D1D5DB; border-radius:8px; text-align:center; font-size:1.3rem; font-weight:800; color:#111827; outline:none; background:#F9FAFB;">
           </div>
+          <input type="hidden" id="firebase-otp-code-input">
 
-          <button id="btn-verify-sms-otp" class="btn-add-cart" style="background:#10B981; margin-bottom:10px;" onclick="appManager.verifyFirebaseSMSOTP()">
-            Verify SMS Code & Login 🔓
+          <button id="btn-verify-sms-otp" class="btn-add-cart" style="background:#FB641B; border:none; height:48px; font-size:1rem; font-weight:800; border-radius:8px; width:100%; margin-bottom:14px; box-shadow:0 2px 8px rgba(251,100,27,0.3);" onclick="appManager.verifyFirebaseSMSOTP()">
+            VERIFY & LOG IN
           </button>
           
-          <button style="background:none; border:none; color:#6B7280; font-size:0.8rem; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('otp-step-2').style.display='none'; document.getElementById('otp-step-1').style.display='block';">
-            Change Mobile Number
-          </button>
+          <div style="font-size:0.8rem; color:#6B7280; margin-top:10px;">
+            Didn't receive the OTP? 
+            <button id="btn-resend-otp" style="background:none; border:none; color:#2874F0; font-weight:700; cursor:pointer;" onclick="appManager.resendOTP()">Resend OTP</button>
+            <span id="otp-timer" style="color:#9CA3AF; margin-left:4px;">(in 30s)</span>
+          </div>
         </div>
 
       </div>

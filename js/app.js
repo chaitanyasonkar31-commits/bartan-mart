@@ -119,6 +119,74 @@ class AppManager {
     document.getElementById("firebase-otp-code-input").focus();
   }
 
+  handleOtpBoxInput(input, index, event) {
+    // If user pastes a 6-digit code into any box
+    if (event && event.clipboardData) {
+      const pasted = event.clipboardData.getData('text').trim();
+      if (/^\d{6}$/.test(pasted)) {
+        for (let i = 0; i < 6; i++) {
+          const box = document.getElementById(`otp-box-${i + 1}`);
+          if (box) box.value = pasted[i];
+        }
+        document.getElementById("otp-box-6").focus();
+        this.updateCombinedOtpValue();
+        return;
+      }
+    }
+
+    // Auto-advance to next input
+    if (input.value.length === 1 && index < 6) {
+      const nextBox = document.getElementById(`otp-box-${index + 1}`);
+      if (nextBox) nextBox.focus();
+    }
+
+    // Handle backspace to go to previous input
+    if (event && event.key === 'Backspace' && index > 1 && input.value.length === 0) {
+      const prevBox = document.getElementById(`otp-box-${index - 1}`);
+      if (prevBox) prevBox.focus();
+    }
+
+    this.updateCombinedOtpValue();
+  }
+
+  updateCombinedOtpValue() {
+    let combined = "";
+    for (let i = 1; i <= 6; i++) {
+      const box = document.getElementById(`otp-box-${i}`);
+      if (box) combined += box.value.trim();
+    }
+    const hiddenInput = document.getElementById("firebase-otp-code-input");
+    if (hiddenInput) hiddenInput.value = combined;
+  }
+
+  startOtpTimer() {
+    let secondsLeft = 30;
+    const timerEl = document.getElementById("otp-timer");
+    const resendBtn = document.getElementById("btn-resend-otp");
+
+    if (resendBtn) resendBtn.disabled = true;
+
+    if (this.otpTimerInterval) clearInterval(this.otpTimerInterval);
+
+    this.otpTimerInterval = setInterval(() => {
+      secondsLeft--;
+      if (timerEl) timerEl.textContent = `(in ${secondsLeft}s)`;
+
+      if (secondsLeft <= 0) {
+        clearInterval(this.otpTimerInterval);
+        if (timerEl) timerEl.textContent = "";
+        if (resendBtn) {
+          resendBtn.disabled = false;
+          resendBtn.style.color = "#2874F0";
+        }
+      }
+    }, 1000);
+  }
+
+  resendOTP() {
+    this.sendFirebaseSMSOTP();
+  }
+
   sendFirebaseSMSOTP() {
     const phoneInput = document.getElementById("login-phone-input").value.trim();
     if (!/^[6-9]\d{9}$/.test(phoneInput)) {
@@ -127,8 +195,10 @@ class AppManager {
     }
 
     const sendBtn = document.getElementById("btn-send-sms-otp");
-    sendBtn.disabled = true;
-    sendBtn.textContent = "Sending Real SMS... ⏳";
+    if (sendBtn) {
+      sendBtn.disabled = true;
+      sendBtn.textContent = "Sending OTP... ⏳";
+    }
 
     this.pendingPhone = phoneInput;
     const fullPhoneNumber = "+91" + phoneInput;
@@ -141,15 +211,28 @@ class AppManager {
         document.getElementById("display-otp-phone").textContent = fullPhoneNumber;
         document.getElementById("otp-step-1").style.display = "none";
         document.getElementById("otp-step-2").style.display = "block";
-        document.getElementById("firebase-otp-code-input").focus();
-        sendBtn.disabled = false;
-        sendBtn.textContent = "Send Real SMS OTP 📩";
-        alert(`📱 Real SMS OTP sent by Google to ${fullPhoneNumber}! Check your mobile messages.`);
+
+        // Reset and focus first OTP box
+        for (let i = 1; i <= 6; i++) {
+          const box = document.getElementById(`otp-box-${i}`);
+          if (box) box.value = "";
+        }
+        const firstBox = document.getElementById("otp-box-1");
+        if (firstBox) firstBox.focus();
+
+        this.startOtpTimer();
+
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          sendBtn.textContent = "CONTINUE";
+        }
       })
       .catch((error) => {
         console.error("Error sending SMS OTP:", error);
-        sendBtn.disabled = false;
-        sendBtn.textContent = "Send Real SMS OTP 📩";
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          sendBtn.textContent = "CONTINUE";
+        }
         if (error.code === 'auth/invalid-phone-number') {
           alert("Invalid phone number format. Please check the number.");
         } else if (error.code === 'auth/quota-exceeded') {
